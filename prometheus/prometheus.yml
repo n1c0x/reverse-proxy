@@ -1,0 +1,31 @@
+# my global config
+global:
+  scrape_interval:     15s
+  evaluation_interval: 30s
+
+ 
+scrape_configs:
+
+- job_name: 'nginx-prometheus-exporter-nginx-global'
+  scrape_interval: 1m
+  metrics_path: '/metrics'
+  static_configs:
+    - targets: ['nginx-prometheus-exporter-www1:9113']
+      labels:
+        service: 'www1'
+    - targets: ['nginx-prometheus-exporter-www2:9113']
+      labels:
+        service: 'www2'
+    - targets: ['nginx-prometheus-exporter-www3:9113']
+      labels:
+        service: 'www3'
+    - targets: ['nginx-prometheus-exporter-www4:9113']
+      labels:
+        service: 'www4'
+    - targets: ['nginx-prometheus-exporter-www5:9113']
+      labels:
+        service: 'www5'
+    - targets: ['nginx-prometheus-exporter-www6:9113']
+      labels:
+        service: 'www6'
+

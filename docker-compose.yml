@@ -1,0 +1,186 @@
+version: "3"
+services:
+# Webserver
+  www1:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: www1
+    volumes:
+     - "./www1:/usr/share/nginx/html"
+     - "./nginx.conf:/etc/nginx/nginx.conf"
+     - "./www1/logs:/var/log/nginx"
+    ports:
+     - "8081:80"
+
+  www2:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: www2
+    volumes:
+     - "./www2:/usr/share/nginx/html"
+     - "./nginx.conf:/etc/nginx/nginx.conf"
+     - "./www2/logs:/var/log/nginx"
+    ports:
+     - "8082:80"
+
+  www3:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: www3
+    volumes:
+     - "./www3:/usr/share/nginx/html"
+     - "./nginx.conf:/etc/nginx/nginx.conf"
+     - "./www3/logs:/var/log/nginx"
+    ports:
+     - "8083:80"
+
+  www4:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: www4
+    volumes:
+     - "./www4:/usr/share/nginx/html"
+     - "./nginx.conf:/etc/nginx/nginx.conf"
+     - "./www4/logs:/var/log/nginx"
+    ports:
+     - "8084:80"
+
+  www5:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: www5
+    volumes:
+     - "./www5:/usr/share/nginx/html"
+     - "./nginx.conf:/etc/nginx/nginx.conf"
+     - "./www5/logs:/var/log/nginx"
+    ports:
+     - "8085:80"
+
+  www6:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: www6
+    volumes:
+     - "./www6:/usr/share/nginx/html"
+     - "./nginx.conf:/etc/nginx/nginx.conf"
+     - "./www6/logs:/var/log/nginx"
+    ports:
+     - "8086:80"
+
+# Reverse proxy
+  rp:
+    # image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rp
+    volumes:
+     - "./rp/nginx.conf:/etc/nginx/nginx.conf"
+     - "./rp/logs:/var/log/nginx"
+    ports:
+     - "80:80"
+    depends_on:
+      - "www1"
+      - "www2"
+      - "www3"
+      - "www4"
+      - "www5"
+      - "www6"
+
+# Prometheus exporter
+  nginx-prometheus-exporter-www1:
+    image: nginx/nginx-prometheus-exporter
+    container_name: nginx-prometheus-exporter-www1
+    environment:
+     - SCRAPE_URI=http://www1/nginx_status
+    ports:
+     - '9111:9113'
+    depends_on:
+      - www1
+
+  nginx-prometheus-exporter-www2:
+    image: nginx/nginx-prometheus-exporter
+    container_name: nginx-prometheus-exporter-www2
+    environment:
+     - SCRAPE_URI=http://www2/nginx_status
+    ports:
+     - '9112:9113'
+    depends_on:
+      - www2
+
+  nginx-prometheus-exporter-www3:
+    image: nginx/nginx-prometheus-exporter
+    container_name: nginx-prometheus-exporter-www3
+    environment:
+     - SCRAPE_URI=http://www3/nginx_status
+    ports:
+     - '9113:9113'
+    depends_on:
+      - www3
+
+  nginx-prometheus-exporter-www4:
+    image: nginx/nginx-prometheus-exporter
+    container_name: nginx-prometheus-exporter-www4
+    environment:
+     - SCRAPE_URI=http://www4/nginx_status
+    ports:
+     - '9114:9113'
+    depends_on:
+      - www4
+
+  nginx-prometheus-exporter-www5:
+    image: nginx/nginx-prometheus-exporter
+    container_name: nginx-prometheus-exporter-www5
+    environment:
+     - SCRAPE_URI=http://www5/nginx_status
+    ports:
+     - '9115:9113'
+    depends_on:
+      - www5
+
+  nginx-prometheus-exporter-www6:
+    image: nginx/nginx-prometheus-exporter
+    container_name: nginx-prometheus-exporter-www6
+    environment:
+     - SCRAPE_URI=http://www6/nginx_status
+    ports:
+     - '9116:9113'
+    depends_on:
+      - www6
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+    ports:
+     - '9090:9090'
+    depends_on:
+      - rp
+
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-volume:/var/lib/grafana  
+
+
+volumes:
+  grafana-volume:
+    external: true
