@@ -21,9 +21,9 @@ services:
       dockerfile: Dockerfile
     container_name: www1
     volumes:
-     - "./www1:/usr/share/nginx/html"
-     - "./nginx.conf:/etc/nginx/nginx.conf"
-     - "./www1/logs:/var/log/nginx"
+     - "./web/www1:/usr/share/nginx/html"
+     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/www1/logs:/var/log/nginx"
     ports:
      - "8081:80"
 
@@ -34,9 +34,9 @@ services:
       dockerfile: Dockerfile
     container_name: www2
     volumes:
-     - "./www2:/usr/share/nginx/html"
-     - "./nginx.conf:/etc/nginx/nginx.conf"
-     - "./www2/logs:/var/log/nginx"
+     - "./web/www2:/usr/share/nginx/html"
+     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/www2/logs:/var/log/nginx"
     ports:
      - "8082:80"
 
@@ -47,9 +47,9 @@ services:
       dockerfile: Dockerfile
     container_name: www3
     volumes:
-     - "./www3:/usr/share/nginx/html"
-     - "./nginx.conf:/etc/nginx/nginx.conf"
-     - "./www3/logs:/var/log/nginx"
+     - "./web/www3:/usr/share/nginx/html"
+     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/www3/logs:/var/log/nginx"
     ports:
      - "8083:80"
 
@@ -60,9 +60,9 @@ services:
       dockerfile: Dockerfile
     container_name: www4
     volumes:
-     - "./www4:/usr/share/nginx/html"
-     - "./nginx.conf:/etc/nginx/nginx.conf"
-     - "./www4/logs:/var/log/nginx"
+     - "./web/www4:/usr/share/nginx/html"
+     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/www4/logs:/var/log/nginx"
     ports:
      - "8084:80"
 
@@ -73,9 +73,9 @@ services:
       dockerfile: Dockerfile
     container_name: www5
     volumes:
-     - "./www5:/usr/share/nginx/html"
-     - "./nginx.conf:/etc/nginx/nginx.conf"
-     - "./www5/logs:/var/log/nginx"
+     - "./web/www5:/usr/share/nginx/html"
+     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/www5/logs:/var/log/nginx"
     ports:
      - "8085:80"
 
@@ -86,9 +86,9 @@ services:
       dockerfile: Dockerfile
     container_name: www6
     volumes:
-     - "./www6:/usr/share/nginx/html"
-     - "./nginx.conf:/etc/nginx/nginx.conf"
-     - "./www6/logs:/var/log/nginx"
+     - "./web/www6:/usr/share/nginx/html"
+     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/www6/logs:/var/log/nginx"
     ports:
      - "8086:80"
 
