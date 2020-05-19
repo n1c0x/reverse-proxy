@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   portainer:
     image: portainer/portainer
     restart: always
@@ -12,7 +11,7 @@ services:
       --admin-password='$$2y$$05$$GWff0F1oQq0ZmPzSMLooHuWEYDaulk.wsnneC1hJl5cQx4S64cVC6'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer:/data
+      - portainer_data:/data
 
 # Webserver
   www1:
