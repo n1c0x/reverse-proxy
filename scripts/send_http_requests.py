@@ -16,6 +16,9 @@ import string
 from datetime import datetime
 import sys
 from termcolor import colored, cprint
+from prettytable import PrettyTable
+from textwrap import wrap
+VAL_WRAP_WIDTH = 40
 
 # random header imports
 from random_user_agent.user_agent import UserAgent
@@ -56,9 +59,25 @@ def print_results(r, verbose, quiet):
     if verbose:
         print("--------------------------------------------------")
         print("Request Header : ")
-        pprint.pprint(set_header())
+        request_header = set_header()
+        request_header_pretty_table = PrettyTable(['Parameter', 'value'])
+        for key, val in request_header.items():
+            wrapped_value_lines = wrap(str(val) or '', VAL_WRAP_WIDTH) or ['']
+            request_header_pretty_table.add_row([key, wrapped_value_lines[0]])
+            for subseq in wrapped_value_lines[1:]:
+                request_header_pretty_table.add_row(['', subseq])
+        print(request_header_pretty_table)
+        
         print("Response Header : ")
-        pprint.pprint(dict(r.headers))
+        response_header = set_header()
+        response_header_pretty_table = PrettyTable(['Parameter', 'value'])
+        for key, val in response_header.items():
+            wrapped_value_lines = wrap(str(val) or '', VAL_WRAP_WIDTH) or ['']
+            response_header_pretty_table.add_row([key, wrapped_value_lines[0]])
+            for subseq in wrapped_value_lines[1:]:
+                response_header_pretty_table.add_row(['', subseq])
+        print(response_header_pretty_table)
+
         print("Encoding : {}".format(r.encoding))
         print("URL : {}".format(r.url))
         print("Content, in text : {}".format(r.text))

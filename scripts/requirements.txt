@@ -2,3 +2,4 @@ random-user-agent
 fake-headers
 requests
 termcolor
+prettytable
