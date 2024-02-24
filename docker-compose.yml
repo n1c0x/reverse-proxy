@@ -195,5 +195,4 @@ services:
 
 volumes:
   grafana-volume:
-    external: true
   portainer_data:
