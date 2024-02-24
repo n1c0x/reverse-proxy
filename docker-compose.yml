@@ -1,17 +1,17 @@
 version: "3"
 services:
-  portainer:
-    image: portainer/portainer
-    restart: always
-    container_name: portainer
-    ports:
-      - "9000:9000"
-    command: 
-      -H unix:///var/run/docker.sock 
-      --admin-password='$$2y$$05$$GWff0F1oQq0ZmPzSMLooHuWEYDaulk.wsnneC1hJl5cQx4S64cVC6'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  # portainer:
+  #   image: portainer/portainer
+  #   restart: always
+  #   container_name: portainer
+  #   ports:
+  #     - "9000:9000"
+  #   command: 
+  #     -H unix:///var/run/docker.sock 
+  #     --admin-password='$$2y$$05$$GWff0F1oQq0ZmPzSMLooHuWEYDaulk.wsnneC1hJl5cQx4S64cVC6'
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
 
 # Webserver
   www1:
