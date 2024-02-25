@@ -4,10 +4,8 @@ services:
 # Webserver
   www1:
     image: nginx:alpine
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
     container_name: www1
+    hostname: www1
     volumes:
      - "./web/default.conf:/etc/nginx/conf.d/default.conf"
      - "./web/data:/usr/share/nginx/html"
@@ -16,79 +14,113 @@ services:
      - "8081:80"
     networks:
      - internal
+    depends_on:
+      - "php"
 
   www2:
-    # image: nginx
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:alpine
     container_name: www2
     volumes:
-     - "./web/www2:/usr/share/nginx/html"
-     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/default.conf:/etc/nginx/conf.d/default.conf"
+     - "./web/data:/usr/share/nginx/html"
      - "./web/www2/logs:/var/log/nginx"
     ports:
      - "8082:80"
+    networks: 
+     - internal
+    depends_on:
+      - "php"
 
   www3:
-    # image: nginx
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:alpine
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: www3
     volumes:
-     - "./web/www3:/usr/share/nginx/html"
-     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/default.conf:/etc/nginx/conf.d/default.conf"
+     - "./web/data:/usr/share/nginx/html"
      - "./web/www3/logs:/var/log/nginx"
     ports:
      - "8083:80"
+    networks: 
+     - internal
+    depends_on:
+      - "php"
 
   www4:
-    # image: nginx
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:alpine
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: www4
     volumes:
-     - "./web/www4:/usr/share/nginx/html"
-     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/default.conf:/etc/nginx/conf.d/default.conf"
+     - "./web/data:/usr/share/nginx/html"
      - "./web/www4/logs:/var/log/nginx"
     ports:
      - "8084:80"
+    networks: 
+     - internal
+    depends_on:
+      - "php"
 
   www5:
-    # image: nginx
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:alpine
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: www5
     volumes:
-     - "./web/www5:/usr/share/nginx/html"
-     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/default.conf:/etc/nginx/conf.d/default.conf"
+     - "./web/data:/usr/share/nginx/html"
      - "./web/www5/logs:/var/log/nginx"
     ports:
      - "8085:80"
+    networks: 
+     - internal
+    depends_on:
+      - "php"
 
   www6:
-    # image: nginx
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:alpine
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: www6
     volumes:
-     - "./web/www6:/usr/share/nginx/html"
-     - "./web/nginx.conf:/etc/nginx/nginx.conf"
+     - "./web/default.conf:/etc/nginx/conf.d/default.conf"
+     - "./web/data:/usr/share/nginx/html"
      - "./web/www6/logs:/var/log/nginx"
     ports:
      - "8086:80"
+    networks: 
+     - internal
+    depends_on:
+      - "php"
 
 # PHP
   php:
-    image: php:fpm-alpine
+    # image: php:fpm-alpine
+    build:
+      context: php
+      dockerfile: Dockerfile
     container_name: php
     volumes:
-      - ./web/www1/data:/usr/share/nginx/html
-      - ./web/www1/logs/php.log:/var/log/fpm-php.www.log
+      - ./web/data:/usr/share/nginx/html
+      - ./web/logs/php.log:/var/log/fpm-php.www.log
+    networks:
+      - internal
+
+# Database
+  db:    
+    image: mariadb
+    container_name: db
+    volumes: 
+      - ./db/data:/var/lib/mysql
+    environment:  
+      MYSQL_ROOT_PASSWORD: fox-db-pw
+      MYSQL_DATABASE: fox-db
     networks:
       - internal
 
@@ -122,6 +154,8 @@ services:
      - '9111:9113'
     depends_on:
       - www1
+    networks: 
+     - internal
 
   nginx-prometheus-exporter-www2:
     image: nginx/nginx-prometheus-exporter
@@ -132,6 +166,8 @@ services:
      - '9112:9113'
     depends_on:
       - www2
+    networks: 
+     - internal
 
   nginx-prometheus-exporter-www3:
     image: nginx/nginx-prometheus-exporter
@@ -142,6 +178,8 @@ services:
      - '9113:9113'
     depends_on:
       - www3
+    networks: 
+     - internal
 
   nginx-prometheus-exporter-www4:
     image: nginx/nginx-prometheus-exporter
@@ -152,6 +190,8 @@ services:
      - '9114:9113'
     depends_on:
       - www4
+    networks: 
+     - internal
 
   nginx-prometheus-exporter-www5:
     image: nginx/nginx-prometheus-exporter
@@ -162,6 +202,8 @@ services:
      - '9115:9113'
     depends_on:
       - www5
+    networks: 
+     - internal
 
   nginx-prometheus-exporter-www6:
     image: nginx/nginx-prometheus-exporter
@@ -172,6 +214,8 @@ services:
      - '9116:9113'
     depends_on:
       - www6
+    networks: 
+     - internal
 
   prometheus:
     image: prom/prometheus:v2.49.1
@@ -182,6 +226,9 @@ services:
      - '9090:9090'
     depends_on:
       - rp
+    networks: 
+     - internal
+     - default
 
 
   grafana:
@@ -192,10 +239,14 @@ services:
       - 3000:3000
     volumes:
       - grafana-volume:/var/lib/grafana  
+    networks: 
+     - internal
+     - default
 
 volumes:
   grafana-volume:
   portainer_data:
+  db-data:
 
 networks:
   internal:
