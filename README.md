@@ -8,6 +8,7 @@ Ce projet est encore en cours de développement. La version fonctionnelle est la
 - linux
 - docker
 - docker-compose
+- Portainer installé et fonctionner sur la machine host. 
 
 # Utilisation
 

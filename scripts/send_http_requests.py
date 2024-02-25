@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Generates trafic to a given url (default : 127.0.0.1) using a random header
 https://pypi.org/project/random-user-agent/
